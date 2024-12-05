@@ -27,10 +27,15 @@ public class Seeder
             };
             await context.Roles.AddRangeAsync(roles);
             await context.SaveChangesAsync();
+        }
 
+        if (!context.Users.Any())
+        {
             var userManager = app.ApplicationServices.CreateScope()
                 .ServiceProvider.GetRequiredService<UserManager<User>>();
+
             var user = new User("Admin", "admin@admin.com");
+            user.UserName = user.Email;
 
             await userManager.CreateAsync(user, "Admin@123");
             await userManager.AddToRoleAsync(user, Roles.Admin);
