@@ -19,13 +19,15 @@ public class ContactService(
 
     public async Task<PaginatorDto<IEnumerable<GetAllContactsDto>>> SearchContacts(string searchTerm,
         PaginationFilter paginationFilter)
-        => await contactRepositiory.GetAll().AsNoTracking()
+    {
+        return await contactRepositiory.GetAll().AsNoTracking()
             .Where(c => c.Name.ToLower().Contains(searchTerm.ToLower()) ||
                         c.PhoneNumber.Contains(searchTerm) ||
                         c.Email.Contains(searchTerm))
             .OrderByDescending(c => c.CreatedAt)
             .Select(c => new GetAllContactsDto(c.Id, c.Name, c.PhoneNumber))
             .PaginateAsync(paginationFilter);
+    }
 
     public async Task<Result<SingleContactDto>> GetContactById(string contactId)
     {

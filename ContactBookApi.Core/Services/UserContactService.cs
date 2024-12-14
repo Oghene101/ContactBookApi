@@ -13,15 +13,18 @@ public class UserContactService(
 {
     public async Task<PaginatorDto<IEnumerable<GetAllContactsDto>>> GetAllUserContacts(string userId,
         PaginationFilter paginationFilter)
-        => await contactRepository.GetAll().AsNoTracking()
+    {
+        return await contactRepository.GetAll().AsNoTracking()
             .Where(c => c.UserId == userId)
             .OrderByDescending(c => c.CreatedAt)
             .Select(c => new GetAllContactsDto(c.Id, c.Name, c.PhoneNumber))
             .PaginateAsync(paginationFilter);
+    }
 
     public async Task<PaginatorDto<IEnumerable<GetAllContactsDto>>> SearchUserContact(string userId, string searchTerm,
         PaginationFilter paginationFilter)
-        => await contactRepository.GetAll().AsNoTracking()
+    {
+        return await contactRepository.GetAll().AsNoTracking()
             .Where(c => c.UserId == userId &&
                         c.Name.ToLower().Contains(searchTerm.ToLower()) ||
                         c.PhoneNumber.Contains(searchTerm) ||
@@ -29,6 +32,7 @@ public class UserContactService(
             .OrderByDescending(c => c.CreatedAt)
             .Select(c => new GetAllContactsDto(c.Id, c.Name, c.PhoneNumber))
             .PaginateAsync(paginationFilter);
+    }
 
     public async Task<Result<SingleContactDto>> GetUserContactById(string userId, string contactId)
     {

@@ -1,0 +1,9 @@
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+/.idea/.idea.ContactBookApi/.idea
+/.vs/ContactBookApi
+/.vs/ProjectEvaluation
+/ContactBookApi/Controllers/WeatherForecastController.cs
